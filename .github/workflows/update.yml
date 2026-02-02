@@ -1,0 +1,23 @@
+name: Update Fund Holdings
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # 每周一运行
+  workflow_dispatch:    # 允许手动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+    - name: Install dependencies
+      run: pip install requests
+    - name: Run script
+      env:
+        GIST_ID: ${{ secrets.GIST_ID }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      run: python main.py
